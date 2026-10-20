@@ -18,14 +18,18 @@ using Debug = UnityEngine.Debug;
 // Assets/Playground/ is gitignored, so students' own work there is never stashed
 // and never touched by a pull.
 //
-// If Unity can't find git (GitHub Desktop's built-in git is often not on PATH),
-// the menu item explains the same two steps in GitHub Desktop instead.
+// Normally the lab PCs are already synced by Tools/LabSync.ps1 (run from Senso).
+// This button is the backup for a student who missed that run.
 //
-// Instructor: don't click this in your authoring copy. It stashes your work too.
+// A project with a .labsync-skip file at its root (the instructor's authoring
+// copy) is never stashed or pulled.
 
 public static class LessonUpdater
 {
     private const int TimeoutMs = 60000;
+
+    // git stash makes a commit, and a student who never set up git has no name.
+    private const string Identity = "-c user.name=\"CS134 Student\" -c user.email=student@localhost ";
 
     [MenuItem("CIT134/Get Latest Lesson")]
     private static void GetLatestLesson()
@@ -33,6 +37,14 @@ public static class LessonUpdater
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
             EditorUtility.DisplayDialog("Get Latest Lesson", "Stop Play mode first, then try again.", "OK");
+            return;
+        }
+
+        string projectRoot = Directory.GetParent(Application.dataPath).FullName;
+        if (File.Exists(Path.Combine(projectRoot, ".labsync-skip")))
+        {
+            EditorUtility.DisplayDialog("Get Latest Lesson",
+                "This is the instructor copy (.labsync-skip), so nothing was stashed or pulled.", "OK");
             return;
         }
 
@@ -48,13 +60,12 @@ public static class LessonUpdater
         // Unsaved scene edits live only in memory; save them so the stash can hold them.
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
-        string projectRoot = Directory.GetParent(Application.dataPath).FullName;
-
         GitResult stash = RunGit(projectRoot,
-            "stash push --include-untracked -m \"Get Latest Lesson " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "\"");
+            Identity + "stash push --include-untracked -m \"Get Latest Lesson " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "\"");
         if (stash.gitMissing)
         {
-            ShowGitHubDesktopSteps();
+            EditorUtility.DisplayDialog("Get Latest Lesson",
+                "Unity can't find git on this computer. Show this to your instructor.", "OK");
             return;
         }
         if (stash.exitCode != 0)
@@ -161,17 +172,6 @@ public static class LessonUpdater
         {
             output.AppendLine(e.Data);
         }
-    }
-
-    private static void ShowGitHubDesktopSteps()
-    {
-        EditorUtility.DisplayDialog(
-            "Get Latest Lesson",
-            "Unity can't find git on this computer, so do it in GitHub Desktop:\n\n"
-            + "1. Branch > Stash All Changes\n"
-            + "2. Repository > Pull\n\n"
-            + "Then come back to Unity.",
-            "OK");
     }
 
     private static void ShowFailure(string headline, GitResult result)

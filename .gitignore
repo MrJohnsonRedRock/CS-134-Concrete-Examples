@@ -118,3 +118,6 @@ InitTestScene*.unity*
 /[Aa]ssets/[Pp]layground/*
 !/[Aa]ssets/[Pp]layground/README.md
 !/[Aa]ssets/[Pp]layground/README.md.meta
+
+# Marks the instructor's authoring copy; LabSync and Get Latest Lesson skip it.
+/.labsync-skip
