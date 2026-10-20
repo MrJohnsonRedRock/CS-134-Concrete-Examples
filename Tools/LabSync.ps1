@@ -70,12 +70,36 @@ function Grant-Ownership([string]$path)
     & icacls.exe $path /setowner $account /T /C /Q | Out-Null
 }
 
+# ---------- One run at a time ----------
+
+# Two copies running at once wreck each other: each one's cleanup deletes the
+# folder the other is halfway through cloning ("could not lock config file").
+# A machine-wide mutex lets the first copy work and sends the rest home. Windows
+# releases it automatically when this PowerShell process ends.
+$mutex = New-Object System.Threading.Mutex($false, 'Global\CS134-LabSync')
+try { $owned = $mutex.WaitOne(0) }
+catch [System.Threading.AbandonedMutexException] { $owned = $true }   # last holder crashed; it's ours now
+if (-not $owned) { Write-Result 'SKIPPED' 'Another LabSync run is already working on this PC.'; exit 0 }
+
 # ---------- Clone or update ----------
 
 if (Test-Path (Join-Path $target '.labsync-skip'))
 {
     Write-Result 'SKIPPED' "$target has .labsync-skip (instructor copy)."
     exit 0
+}
+
+# A clone that never finished has a .git folder but no commit. Nothing of the
+# student's can be in it yet, so clear it and clone fresh.
+$repaired = $false
+if (Test-Path (Join-Path $target '.git'))
+{
+    $head = Invoke-Git @('-C', $target, 'rev-parse', '--verify', '--quiet', 'HEAD')
+    if ($head.Code -ne 0)
+    {
+        Remove-Item $target -Recurse -Force
+        $repaired = $true
+    }
 }
 
 if (-not (Test-Path $target))
@@ -101,7 +125,9 @@ if (-not (Test-Path $target))
     Grant-Ownership $target
     if ($createdParent) { & icacls.exe $parent /setowner $account /C /Q | Out-Null }
 
-    Write-Result 'CLONED' "$account -> $target"
+    $detail = "$account -> $target"
+    if ($repaired) { $detail += '  (replaced a half-finished clone)' }
+    Write-Result 'CLONED' $detail
     exit 0
 }
 
