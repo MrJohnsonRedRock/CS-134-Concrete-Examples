@@ -1,13 +1,3 @@
-# LabSync.ps1 — clone or update the CS-134 class project for whoever is logged in.
-#
-# Built to run from Senso, which runs scripts as NT AUTHORITY\SYSTEM. Safe to run
-# again and again on every lab PC:
-#   - no project yet   -> clone it into the student's profile
-#   - project exists   -> stash the student's changes (nothing is deleted), then pull
-#   - .labsync-skip    -> leave it alone (the instructor's authoring copy has this file)
-#
-# Assets/Playground is gitignored, so students' own work there is never touched.
-# Prints one RESULT line per run for the Senso output.
 
 $RepoUrl    = 'https://github.com/MrJohnsonRedRock/CS-134-Concrete-Examples.git'
 $ParentDir  = 'Unity Projects'             # inside the student's profile folder
