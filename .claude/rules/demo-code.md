@@ -8,12 +8,26 @@ every demo consistent and readable.
 - One session per folder: `Assets/Demos/S{NN}_{Topic}/`, e.g. `S15_Constructors/`.
 - Shared infrastructure goes in `Assets/Demos/Shared/`. Shared code may use
   features the class hasn't reached yet; session demos may not (see below).
-- One concept per file. If a file needs a scroll bar to make its point, split it.
-- When you contrast two approaches, write two files with parallel names that can
-  be swapped on the same GameObject: `Spawn_Instantiate` / `Spawn_Pooled`.
-- A file that is wrong on purpose ends in `_BROKEN`, opens with a header comment
-  saying what's wrong and why it's left that way, and has a correct counterpart
-  in the same folder. Don't fix a `_BROKEN` file unless asked.
+- **One MonoBehaviour per session: `Session{NN}.cs`**, with a
+  `[SerializeField] [Range(1, N)] private int step` field. `Start` dispatches with
+  `if / else if` to one method per step, and each method is named after its slide.
+  Students set Step in the Inspector and press Play. They never swap scripts.
+- **Steps are numbered to match the deck.** Every deck slide with a demo gets the
+  line `*In the project: **Step N**. …*`, and the HUD title reads
+  `Session NN · Step N of M: <slide title>`. Each step shows a `Predict` row, worded
+  as a question taken from the slide.
+- The plain classes a session builds (`EnemyStats`, `LootDrop`) get one file each,
+  next to the session script.
+- When you contrast two approaches, make them two steps of the same script, not
+  two scripts.
+- **Mistakes that don't compile are commented out, never left as live code.** Mark
+  the block `// Uncomment me. Then read the Console.` and have the step's HUD say
+  which file to open. A file that doesn't compile stops every scene for everyone.
+- Mistakes that *do* compile (a wrong result, a leak) may be a `_BROKEN` step that
+  opens with a comment saying what's wrong and has a correct step beside it.
+  Don't fix a `_BROKEN` step unless asked.
+- Session scripts live on the `Lessons` object in Level1. Only the current
+  session's component is enabled.
 
 ## Header comment
 

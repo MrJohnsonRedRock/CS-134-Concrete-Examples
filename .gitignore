@@ -113,3 +113,8 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Students' own experiments. Get Latest Lesson never stashes or touches these.
+/[Aa]ssets/[Pp]layground/*
+!/[Aa]ssets/[Pp]layground/README.md
+!/[Aa]ssets/[Pp]layground/README.md.meta
