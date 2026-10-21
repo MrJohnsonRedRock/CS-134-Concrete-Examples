@@ -18,8 +18,8 @@ using Debug = UnityEngine.Debug;
 // Assets/Playground/ is gitignored, so students' own work there is never stashed
 // and never touched by a pull.
 //
-// Normally the lab PCs are already synced by Tools/LabSync.ps1 (run from Senso).
-// This button is the backup for a student who missed that run.
+// Students clone the project once themselves (see STUDENTS.md), then use this
+// button at the start of every class.
 //
 // A project with a .labsync-skip file at its root (the instructor's authoring
 // copy) is never stashed or pulled.

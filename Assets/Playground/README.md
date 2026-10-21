@@ -1,10 +1,10 @@
 # Playground
 
-This folder is yours. Anything you make here stays on your computer, and the
-class project's updates never touch it.
+This folder is yours. Anything you make here stays on your computer, and
+**CIT134 > Get Latest Lesson** never touches it.
 
 Everything outside this folder belongs to the class project. Change whatever you
-like out there, but expect the next update to set those changes aside.
+like out there, but expect Get Latest Lesson to set those changes aside.
 
 Two habits that save you trouble:
 
