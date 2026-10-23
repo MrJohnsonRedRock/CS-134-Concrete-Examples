@@ -60,6 +60,10 @@ public static class LessonUpdater
         // Unsaved scene edits live only in memory; save them so the stash can hold them.
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
+        // Remember the open scene: the pull may replace it on disk, and we reopen
+        // it afterward so the student sees the new lesson, not a stale copy.
+        string openScenePath = EditorSceneManager.GetActiveScene().path;
+
         GitResult stash = RunGit(projectRoot,
             Identity + "stash push --include-untracked -m \"Get Latest Lesson " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "\"");
         if (stash.gitMissing)
@@ -82,6 +86,12 @@ public static class LessonUpdater
         }
 
         AssetDatabase.Refresh();
+
+        // Everything was saved and stashed above, so reopening loses nothing.
+        if (openScenePath.Length > 0 && File.Exists(Path.Combine(projectRoot, openScenePath)))
+        {
+            EditorSceneManager.OpenScene(openScenePath);
+        }
 
         bool stashedSomething = !stash.output.Contains("No local changes");
         string message = "Got the latest lesson.";

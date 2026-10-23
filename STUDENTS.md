@@ -32,8 +32,18 @@ Change the Step and press Play again for the next slide. Press **H** to hide the
 ## When a step says "uncomment"
 
 Some lessons show you a mistake. The step tells you which file to open and which
-lines to uncomment. Do it, save, and read the Console. You don't need to undo it:
-Get Latest Lesson sets your changes aside next class.
+lines to uncomment. Do it, save, and read the Console.
+
+**Then comment it back out before the next step.** While the project has an
+error, Unity won't let you press Play at all, for any step. (If you forget,
+Get Latest Lesson sets your changes aside next class.)
+
+## When the numbers don't reset
+
+This project keeps `static` values between Plays: stopping Play doesn't end the
+program, so a static counter keeps counting. That's on purpose (Session 16).
+Static values reset when Unity recompiles your scripts, for example after you
+save a change to any `.cs` file.
 
 ## Your own code
 

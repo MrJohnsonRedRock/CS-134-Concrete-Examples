@@ -22,7 +22,11 @@ every demo consistent and readable.
   two scripts.
 - **Mistakes that don't compile are commented out, never left as live code.** Mark
   the block `// Uncomment me. Then read the Console.` and have the step's HUD say
-  which file to open. A file that doesn't compile stops every scene for everyone.
+  which file to open. A file that doesn't compile stops every scene for everyone,
+  so the HUD's last line for that step always says to comment it back out.
+- This project has domain reload off (Enter Play Mode Options), so static fields
+  keep their values across Stop and Play until the scripts recompile. A step that
+  shows a static value must account for that, and the deck has to say so.
 - Mistakes that *do* compile (a wrong result, a leak) may be a `_BROKEN` step that
   opens with a comment saying what's wrong and has a correct step beside it.
   Don't fix a `_BROKEN` step unless asked.
