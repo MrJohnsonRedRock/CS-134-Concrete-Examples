@@ -1976,7 +1976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0bd43e0b3758ff4194d3541a502a310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S15_SpawnWithStats
-  step: 1
+  step: 3
   enemyPrefab: {fileID: 6873248724645408092, guid: 0d45b08b4bfad8a4cb1bb9526ed35663, type: 3}
   player: {fileID: 2092555116}
   spacing: 2

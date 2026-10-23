@@ -16,8 +16,8 @@ public struct DamageHit
 
     // C# 10 lets a struct declare its own parameterless constructor.
     // Which C# does Unity compile? Uncomment me. Then read the Console.
-    // public DamageHit()
-    // {
+     //public DamageHit()
+    //{
     //     amount = 1;
     //     isCritical = false;
     // }

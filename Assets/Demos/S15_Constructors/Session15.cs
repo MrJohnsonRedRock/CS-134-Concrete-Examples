@@ -57,7 +57,7 @@ public class Session15 : MonoBehaviour
                   "LootDrop.cs has no constructor. What's in each field?");
 
         // LootDrop.cs has no constructor in it. So what does this call?
-        LootDrop drop = new LootDrop();
+        LootDrop drop = new LootDrop(10);
 
         // Session 7: a reference box nobody filled holds null, not "".
         string shownName = "null";

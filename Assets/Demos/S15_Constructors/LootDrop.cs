@@ -10,8 +10,8 @@ public class LootDrop
     public bool isRare;
 
     // Uncomment me. Then read the Console.
-    // public LootDrop(int startingCoins)
-    // {
-    //     coins = startingCoins;
-    // }
+     public LootDrop(int startingCoins)
+     {
+         coins = startingCoins;
+     }
 }
